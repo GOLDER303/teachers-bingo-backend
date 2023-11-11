@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeachersBingoApi.Models;
 
-public class Bingo
+public class Phrase
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
-    public required string Name { get; set; }
-    public List<Phrase> Phrases { get; set; } = new List<Phrase>();
+    public required string Content { get; set; }
+
+    public int BingoId { get; set; }
+    public Bingo Bingo { get; set; } = null!;
 }
