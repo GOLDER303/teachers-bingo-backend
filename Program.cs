@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using TeachersBingoApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultSQLConnection"), new MySqlServerVersion(new Version(10, 4, 27)));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
