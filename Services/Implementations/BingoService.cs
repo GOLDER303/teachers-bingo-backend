@@ -1,7 +1,8 @@
-namespace TeachersBingoApi.Services;
+namespace TeachersBingoApi.Services.Implementations;
 
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
+using TeachersBingoApi.Services.Interfaces;
 
 public class BingoService : IBingoService
 {

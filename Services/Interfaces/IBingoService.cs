@@ -1,4 +1,4 @@
-namespace TeachersBingoApi.Services;
+namespace TeachersBingoApi.Services.Interfaces;
 
 using TeachersBingoApi.Models;
 

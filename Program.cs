@@ -2,7 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using TeachersBingoApi.Data;
 using TeachersBingoApi.Repositories.Implementations;
 using TeachersBingoApi.Repositories.Interfaces;
-using TeachersBingoApi.Services;
+using TeachersBingoApi.Services.Implementations;
+using TeachersBingoApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

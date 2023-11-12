@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TeachersBingoApi.Dots;
 using TeachersBingoApi.Dtos;
-using TeachersBingoApi.Services;
+using TeachersBingoApi.Services.Interfaces;
 
 namespace TeachersBingoApi.Controllers;
 
