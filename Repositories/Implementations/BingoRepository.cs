@@ -17,7 +17,10 @@ public class BingoRepository : IBingoRepository
 
     public Bingo GetBingoById(int id)
     {
-        var bingo = _dbContext.Bingos.FirstOrDefault(category => category.Id == id);
+        var bingo = _dbContext.Bingos
+            .Where(b => b.Id == id)
+            .Include(b => b.Phrases)
+            .FirstOrDefault();
 
         if (bingo == null)
         {
@@ -29,6 +32,13 @@ public class BingoRepository : IBingoRepository
 
     public IEnumerable<Bingo> GetAllBingos()
     {
-        return _dbContext.Bingos.ToList();
+        return _dbContext.Bingos
+            .Include(b => b.Phrases)
+            .ToList();
+    }
+
+    public int GetBingoCount()
+    {
+        return _dbContext.Bingos.Count();
     }
 }
