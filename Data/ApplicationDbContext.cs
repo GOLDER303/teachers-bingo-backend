@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 using TeachersBingoApi.Models;
+using TeachersBingoApi.Utils.ValueComparers;
 
 namespace TeachersBingoApi.Data;
 
@@ -11,6 +12,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Bingo> Bingos { get; set; }
+    public DbSet<Player> Players { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,5 +33,17 @@ public class ApplicationDbContext : DbContext
             new Phrase() { Id = 8, Content = "Phrase 8", BingoId = 1 },
             new Phrase() { Id = 9, Content = "Phrase 9", BingoId = 1 }
         );
+
+        modelBuilder.Entity<Player>()
+            .HasIndex(p => p.Name)
+            .IsUnique();
+
+
+        modelBuilder.Entity<Player>()
+            .Property(p => p.CurrentBingoChoices)
+            .HasConversion(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<bool[,]>(v) ?? new bool[3, 3],
+                new BoolArrayValueComparer());
     }
 }
