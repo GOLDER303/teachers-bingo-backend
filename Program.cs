@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultSQLConnection"), new MySqlServerVersion(new Version(10, 4, 27)));
 });
 builder.Services.AddScoped<IBingoRepository, BingoRepository>();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
 builder.Services.AddScoped<IBingoService, BingoService>();
 
