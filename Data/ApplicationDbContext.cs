@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Bingo> Bingos { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<BingoGame> BingoGames { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
