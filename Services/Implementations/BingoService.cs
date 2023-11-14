@@ -1,5 +1,6 @@
 namespace TeachersBingoApi.Services.Implementations;
 
+using Newtonsoft.Json;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
 using TeachersBingoApi.Services.Interfaces;
@@ -13,14 +14,39 @@ public class BingoService : IBingoService
         _bingoRepository = bingoRepository;
     }
 
-    public Bingo GetRandomBingo()
+    public CurrentBingo? GetCurrentBingo()
     {
-        int bingoCount = _bingoRepository.GetBingoCount();
+        string jsonString = File.ReadAllText("bingoSchedule.json");
+        var schedule = JsonConvert.DeserializeObject<BingoSchedule>(jsonString);
 
-        Random random = new();
+        if (schedule == null)
+        {
+            throw new JsonException("Failed to deserialize the bingo schedule from the JSON file.");
+        }
 
-        int randomBingoId = random.Next(1, bingoCount + 1);
+        TimeSpan currentTime = DateTime.Now.TimeOfDay;
 
-        return _bingoRepository.GetBingoById(randomBingoId);
+        foreach (var interval in schedule.Schedule)
+        {
+            var startTime = TimeSpan.Parse(interval.Start);
+            var endTime = TimeSpan.Parse(interval.End);
+
+
+            if (currentTime >= startTime && currentTime < endTime)
+            {
+                DateTime currentDate = DateTime.Now.Date;
+                DateTime endDateTime = currentDate + endTime;
+
+                CurrentBingo currentBingo = new()
+                {
+                    Bingo = _bingoRepository.GetBingoByName(interval.Name),
+                    EndDateTime = endDateTime
+                };
+
+                return currentBingo;
+            }
+        }
+
+        return null;
     }
 }

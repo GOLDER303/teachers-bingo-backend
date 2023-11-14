@@ -41,4 +41,19 @@ public class BingoRepository : IBingoRepository
     {
         return _dbContext.Bingos.Count();
     }
+
+    public Bingo GetBingoByName(string name)
+    {
+        var bingo = _dbContext.Bingos
+            .Where(b => b.Name == name)
+            .Include(b => b.Phrases)
+            .FirstOrDefault();
+
+        if (bingo == null)
+        {
+            throw new KeyNotFoundException($"Bingo with name: {name} not found");
+        }
+
+        return bingo;
+    }
 }

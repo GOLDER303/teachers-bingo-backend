@@ -18,12 +18,18 @@ public class BingoController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<BingoDTO> GetRandomBingo()
+    public ActionResult GetCurrentBingo()
     {
-        var bingo = _bingoService.GetRandomBingo();
+        var currentBingo = _bingoService.GetCurrentBingo();
 
-        var phrases = bingo.Phrases.Select(p => new PhraseDTO(p.Content)).ToList();
-        var bingoDTO = new BingoDTO(bingo.Id, bingo.Name, phrases);
+        if (currentBingo == null)
+        {
+            //TODO: add a proper DTO
+            return Ok("No bingo currently active");
+        }
+
+        var phrases = currentBingo.Bingo.Phrases.Select(p => new PhraseDTO(p.Content)).ToList();
+        var bingoDTO = new BingoDTO(currentBingo.Bingo.Id, currentBingo.Bingo.Name, phrases);
 
         return Ok(bingoDTO);
     }

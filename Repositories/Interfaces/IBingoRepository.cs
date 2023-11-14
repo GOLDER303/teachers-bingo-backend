@@ -7,4 +7,5 @@ public interface IBingoRepository
     Bingo GetBingoById(int id);
     IEnumerable<Bingo> GetAllBingos();
     int GetBingoCount();
+    Bingo GetBingoByName(string name);
 }
