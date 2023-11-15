@@ -10,10 +10,12 @@ namespace TeachersBingoApi.Controllers;
 public class BingoController : ControllerBase
 {
     private readonly IBingoService _bingoService;
+    private readonly IPlayerService _playerService;
 
-    public BingoController(IBingoService bingoService)
+    public BingoController(IBingoService bingoService, IPlayerService playerService)
     {
         _bingoService = bingoService;
+        _playerService = playerService;
     }
 
     [HttpGet]
@@ -32,5 +34,23 @@ public class BingoController : ControllerBase
         var bingoDTO = new BingoDTO(currentBingo.Bingo.Id, currentBingo.Bingo.Name, phrases);
 
         return Ok(bingoDTO);
+    }
+
+    [HttpPost("join")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public ActionResult JoinCurrentBingoGame([FromBody] JoinCurrentBingoDTO joinCurrentBingoDTO)
+    {
+        var playerName = joinCurrentBingoDTO.PlayerName;
+
+        var doesPlayerExist = _playerService.DoesPlayerExistByName(playerName);
+
+        if (!doesPlayerExist)
+        {
+            _playerService.CreatePlayer(playerName);
+        }
+
+        int currentBingoGameId = _playerService.AddPlayerToCurrentBingoGame(playerName);
+
+        return Ok(currentBingoGameId);
     }
 }

@@ -17,6 +17,7 @@ builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IBingoGameRepository, BingoGameRepository>();
 
 builder.Services.AddScoped<IBingoService, BingoService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IBingoGameService, BingoGameService>();
 
 builder.Services.AddControllers();

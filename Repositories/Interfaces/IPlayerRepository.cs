@@ -6,6 +6,6 @@ public interface IPlayerRepository
 {
     Player GetPlayerByName(string name);
     bool DoesPlayerExistByName(string name);
-    Player CreatePlayer(string name);
+    Player AddPlayer(Player player);
     void SaveChanges();
 }

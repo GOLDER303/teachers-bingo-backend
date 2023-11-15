@@ -37,14 +37,12 @@ public class PlayerRepository : IPlayerRepository
         return true;
     }
 
-    public Player CreatePlayer(string name)
+    public Player AddPlayer(Player player)
     {
-        var newPlayer = new Player { Name = name };
-
-        _dbContext.Players.Add(newPlayer);
+        _dbContext.Players.Add(player);
         _dbContext.SaveChanges();
 
-        return newPlayer;
+        return player;
     }
 
     public void SaveChanges()
