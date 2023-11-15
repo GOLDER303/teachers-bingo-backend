@@ -46,5 +46,14 @@ public class ApplicationDbContext : DbContext
                 v => JsonConvert.SerializeObject(v),
                 v => JsonConvert.DeserializeObject<bool[,]>(v) ?? new bool[3, 3],
                 new BoolArrayValueComparer());
+
+        modelBuilder.Entity<Player>()
+            .HasOne(p => p.CurrentBingoGame);
+
+        modelBuilder.Entity<BingoGame>()
+            .HasMany(bg => bg.Players)
+            .WithMany(p => p.BingoGames);
+
+
     }
 }

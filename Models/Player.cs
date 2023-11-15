@@ -12,6 +12,6 @@ public class Player
 
     public required string Name { get; set; }
     public bool[,] CurrentBingoChoices { get; set; } = new bool[3, 3];
-    public BingoGame? CurrentBingoGame;
+    public BingoGame? CurrentBingoGame { get; set; }
     public IEnumerable<BingoGame> BingoGames { get; set; } = new List<BingoGame>();
 }
