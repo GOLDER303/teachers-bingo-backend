@@ -8,4 +8,6 @@ public interface IBingoRepository
     IEnumerable<Bingo> GetAllBingos();
     int GetBingoCount();
     Bingo GetBingoByName(string name);
+    Bingo AddBingo(Bingo bingo);
+    bool DoesBingoExistByName(string name);
 }

@@ -39,9 +39,25 @@ public class BingoService : IBingoService
                 DateTime currentDate = DateTime.Now.Date;
                 DateTime endDateTime = currentDate + endTime;
 
+                Bingo bingo;
+
+                if (_bingoRepository.DoesBingoExistByName(interval.Name))
+                {
+                    bingo = _bingoRepository.GetBingoByName(interval.Name);
+                }
+                else
+                {
+                    bingo = new()
+                    {
+                        Name = interval.Name
+                    };
+
+                    bingo = _bingoRepository.AddBingo(bingo);
+                }
+
                 CurrentBingo currentBingo = new()
                 {
-                    Bingo = _bingoRepository.GetBingoByName(interval.Name),
+                    Bingo = bingo,
                     EndDateTime = endDateTime
                 };
 

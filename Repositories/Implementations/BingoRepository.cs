@@ -56,4 +56,18 @@ public class BingoRepository : IBingoRepository
 
         return bingo;
     }
+
+    public Bingo AddBingo(Bingo bingo)
+    {
+        _dbContext.Bingos.Add(bingo);
+        _dbContext.SaveChanges();
+
+        return bingo;
+    }
+
+    public bool DoesBingoExistByName(string name)
+    {
+        var doesBingoExist = _dbContext.Bingos.Any(b => b.Name == name);
+        return doesBingoExist;
+    }
 }
