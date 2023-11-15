@@ -37,7 +37,7 @@ public class BingoController : ControllerBase
     }
 
     [HttpPost("join")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult JoinCurrentBingoGame([FromBody] JoinCurrentBingoDTO joinCurrentBingoDTO)
     {
         var playerName = joinCurrentBingoDTO.PlayerName;
