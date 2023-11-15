@@ -1,5 +1,6 @@
 namespace TeachersBingoApi.Repositories.Implementations;
 
+using Microsoft.EntityFrameworkCore;
 using TeachersBingoApi.Data;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
@@ -15,7 +16,7 @@ public class PlayerRepository : IPlayerRepository
 
     public Player GetPlayerByName(string name)
     {
-        var player = _dbContext.Players.FirstOrDefault(p => p.Name == name);
+        var player = _dbContext.Players.Include(p => p.CurrentBingoGame).FirstOrDefault(p => p.Name == name);
 
         if (player == null)
         {
