@@ -8,15 +8,17 @@ using TeachersBingoApi.Services.Interfaces;
 public class BingoService : IBingoService
 {
     private readonly IBingoRepository _bingoRepository;
+    private readonly IWebHostEnvironment _hostingEnvironment;
 
-    public BingoService(IBingoRepository bingoRepository)
+    public BingoService(IBingoRepository bingoRepository, IWebHostEnvironment hostingEnvironment)
     {
         _bingoRepository = bingoRepository;
+        _hostingEnvironment = hostingEnvironment;
     }
 
     public CurrentBingo? GetCurrentBingo()
     {
-        string jsonString = File.ReadAllText("bingoSchedule.json");
+        string jsonString = File.ReadAllText($"{_hostingEnvironment.ContentRootPath}/Data/bingoSchedule.json");
         var schedule = JsonConvert.DeserializeObject<BingoSchedule>(jsonString);
 
         if (schedule == null)
