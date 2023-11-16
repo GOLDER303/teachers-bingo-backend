@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using TeachersBingoApi.Dots;
 using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Services.Interfaces;
+using Newtonsoft.Json;
+using TeachersBingoApi.Models;
 
 namespace TeachersBingoApi.Controllers;
 
@@ -52,5 +54,16 @@ public class BingoController : ControllerBase
         int currentBingoGameId = _playerService.AddPlayerToCurrentBingoGame(playerName);
 
         return Ok(currentBingoGameId);
+    }
+
+    [HttpPost("{bingoGameId:int}/choice")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public ActionResult MakeAChoice(int bingoGameId, [FromBody] ChoiceDTO choiceDTO)
+    {
+        _playerService.TogglePlayerChoice(choiceDTO.PlayerName, bingoGameId, choiceDTO.Coordinates);
+
+        Player player = _playerService.GetPlayerByName(choiceDTO.PlayerName);
+
+        return Ok(JsonConvert.SerializeObject(player.CurrentBingoChoices));
     }
 }
