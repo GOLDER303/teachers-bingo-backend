@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using TeachersBingoApi.Dots;
 using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Services.Interfaces;
-using Newtonsoft.Json;
 using TeachersBingoApi.Models;
+using Newtonsoft.Json;
 
 namespace TeachersBingoApi.Controllers;
 
@@ -57,13 +57,23 @@ public class BingoController : ControllerBase
     }
 
     [HttpPost("{bingoGameId:int}/choice")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult MakeAChoice(int bingoGameId, [FromBody] ChoiceDTO choiceDTO)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<PlayerChoiceResponseDTO> MakeAChoice(int bingoGameId, [FromBody] ChoiceDTO choiceDTO)
     {
-        _playerService.TogglePlayerChoice(choiceDTO.PlayerName, bingoGameId, choiceDTO.Coordinates);
+        string playerName = choiceDTO.PlayerName;
 
-        Player player = _playerService.GetPlayerByName(choiceDTO.PlayerName);
+        _playerService.TogglePlayerChoice(playerName, bingoGameId, choiceDTO.Coordinates);
 
-        return Ok(JsonConvert.SerializeObject(player.CurrentBingoChoices));
+        bool hasPlayerWon = _playerService.CheckIfPlayerWon(playerName);
+
+        Player player = _playerService.GetPlayerByName(playerName);
+
+        PlayerChoiceResponseDTO playerChoiceResponseDTO = new()
+        {
+            SerializedPlayerChoices = player.CurrentBingoChoices,
+            HasPlayerWon = hasPlayerWon
+        };
+
+        return Ok(playerChoiceResponseDTO);
     }
 }

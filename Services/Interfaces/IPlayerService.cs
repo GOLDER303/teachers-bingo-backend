@@ -10,4 +10,5 @@ public interface IPlayerService
     bool DoesPlayerExistByName(string name);
     Player CreatePlayer(string playerName);
     int AddPlayerToCurrentBingoGame(string playerName);
+    bool CheckIfPlayerWon(string playerName);
 }
