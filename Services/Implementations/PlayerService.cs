@@ -59,6 +59,11 @@ public class PlayerService : IPlayerService
 
         var currentBingoGame = _bingoGameService.GetCurrentBingoGame();
 
+        if (player.CurrentBingoGame == currentBingoGame)
+        {
+            return currentBingoGame.Id;
+        }
+
         player.CurrentBingoGame = currentBingoGame;
 
         _playerRepository.SaveChanges();
