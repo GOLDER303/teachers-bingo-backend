@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
 using TeachersBingoApi.Services.Interfaces;
+using TeachersBingoApi.Utils;
 
 public class BingoService : IBingoService
 {
@@ -66,5 +67,27 @@ public class BingoService : IBingoService
         }
 
         return null;
+    }
+
+    public string[,] GetRandomBingoPhrases(Bingo bingo)
+    {
+        int bingoSize = 3;
+        string[,] randomBingoPhrases = new string[bingoSize, bingoSize];
+
+        List<Phrase> currentBingoPhrases = bingo.Phrases;
+
+        ListUtils.ShuffleList(currentBingoPhrases);
+
+        int index = 0;
+        for (int i = 0; i < bingoSize; i++)
+        {
+            for (int j = 0; j < bingoSize; j++)
+            {
+                randomBingoPhrases[i, j] = currentBingoPhrases[index].Content;
+                index++;
+            }
+        }
+
+        return randomBingoPhrases;
     }
 }

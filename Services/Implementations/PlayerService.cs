@@ -2,6 +2,7 @@ using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
 using TeachersBingoApi.Services.Interfaces;
+using TeachersBingoApi.Utils;
 
 namespace TeachersBingoApi.Services.Implementations;
 
@@ -9,11 +10,13 @@ public class PlayerService : IPlayerService
 {
     private readonly IPlayerRepository _playerRepository;
     private readonly IBingoGameService _bingoGameService;
+    private readonly IBingoService _bingoService;
 
-    public PlayerService(IPlayerRepository playerRepository, IBingoGameService bingoGameService)
+    public PlayerService(IPlayerRepository playerRepository, IBingoGameService bingoGameService, IBingoService bingoService)
     {
         _playerRepository = playerRepository;
         _bingoGameService = bingoGameService;
+        _bingoService = bingoService;
     }
 
     public Player GetPlayerByName(string name)
@@ -65,6 +68,10 @@ public class PlayerService : IPlayerService
         }
 
         player.CurrentBingoGame = currentBingoGame;
+
+        var randomBingoPhrases = _bingoService.GetRandomBingoPhrases(currentBingoGame.Bingo);
+
+        player.CurrentBingoPhrasesStrings = randomBingoPhrases;
 
         _playerRepository.SaveChanges();
 

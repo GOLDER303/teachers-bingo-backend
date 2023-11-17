@@ -48,6 +48,12 @@ public class ApplicationDbContext : DbContext
                 new BoolArrayValueComparer());
 
         modelBuilder.Entity<Player>()
+            .Property(p => p.CurrentBingoPhrasesStrings)
+            .HasConversion(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<string[,]>(v));
+
+        modelBuilder.Entity<Player>()
             .HasOne(p => p.CurrentBingoGame);
 
         modelBuilder.Entity<BingoGame>()
