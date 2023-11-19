@@ -3,11 +3,10 @@ using TeachersBingoApi.Dots;
 using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Services.Interfaces;
 using TeachersBingoApi.Models;
-using Newtonsoft.Json;
 
 namespace TeachersBingoApi.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/bingo/")]
 [ApiController]
 public class BingoController : ControllerBase
 {
