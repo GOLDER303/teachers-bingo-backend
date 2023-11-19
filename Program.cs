@@ -7,6 +7,19 @@ using TeachersBingoApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "corsConfig",
+                      policy =>
+                      {
+                          policy
+                              .WithOrigins("http://http://localhost:5173")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                      });
+});
+
+
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -35,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("corsConfig");
 
 app.UseAuthorization();
 
