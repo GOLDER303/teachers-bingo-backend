@@ -51,7 +51,8 @@ public class ApplicationDbContext : DbContext
             .Property(p => p.CurrentBingoPhrasesStrings)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<string[,]>(v));
+                v => JsonConvert.DeserializeObject<string[,]>(v),
+                new StringArrayValueComparer());
 
         modelBuilder.Entity<Player>()
             .HasOne(p => p.CurrentBingoGame);
