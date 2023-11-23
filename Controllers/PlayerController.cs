@@ -16,7 +16,7 @@ public class PlayerController : ControllerBase
         _playerService = playerService;
     }
 
-    [HttpGet("{playerName:alpha}/info")]
+    [HttpGet("{playerName}/info")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<PlayerInfoResponseDTO> GetPlayerInfo(string playerName)
     {
