@@ -69,7 +69,7 @@ public class BingoController : ControllerBase
 
         PlayerChoiceResponseDTO playerChoiceResponseDTO = new()
         {
-            SerializedPlayerChoices = player.CurrentBingoChoices,
+            CurrentChoices = player.CurrentBingoChoices,
             HasPlayerWon = hasPlayerWon
         };
 
