@@ -12,4 +12,5 @@ public class BingoGame
     public required Bingo Bingo { get; set; }
     public IEnumerable<Player> Players { get; set; } = new List<Player>();
     public required DateTime EndDateTime { get; set; }
+    public Leaderboard Leaderboard { get; set; } = new Leaderboard();
 }
