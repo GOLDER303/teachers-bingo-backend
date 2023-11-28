@@ -28,6 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IBingoRepository, BingoRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IBingoGameRepository, BingoGameRepository>();
+builder.Services.AddScoped<ILeaderboardPositionRepository, LeaderboardPositionRepository>();
 
 builder.Services.AddScoped<IBingoService, BingoService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
