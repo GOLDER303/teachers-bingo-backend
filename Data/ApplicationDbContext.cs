@@ -64,6 +64,12 @@ public class ApplicationDbContext : DbContext
             .HasMany(bg => bg.Players)
             .WithMany(p => p.BingoGames);
 
+        modelBuilder.Entity<Leaderboard>()
+            .Navigation(l => l.Positions)
+            .AutoInclude();
 
+        modelBuilder.Entity<LeaderboardPosition>()
+            .Navigation(lp => lp.Player)
+            .AutoInclude();
     }
 }
