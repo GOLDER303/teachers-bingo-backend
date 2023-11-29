@@ -63,14 +63,14 @@ public class BingoController : ControllerBase
 
         _playerService.TogglePlayerChoice(playerName, bingoGameId, choiceDTO.Coordinates);
 
-        bool hasPlayerWon = _playerService.CheckIfPlayerWon(playerName);
+        bool playerHasWon = _playerService.CheckIfPlayerWon(playerName);
 
         Player player = _playerService.GetPlayerByName(playerName);
 
         PlayerChoiceResponseDTO playerChoiceResponseDTO = new()
         {
             CurrentChoices = player.CurrentBingoChoices,
-            HasPlayerWon = hasPlayerWon
+            PlayerHasWon = playerHasWon
         };
 
         return Ok(playerChoiceResponseDTO);
