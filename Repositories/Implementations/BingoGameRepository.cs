@@ -20,6 +20,16 @@ public class BingoGameRepository : IBingoGameRepository
         return lastBingoGame;
     }
 
+    public BingoGame GetBingoGameWithLeaderboardById(int bingoGameId)
+    {
+        var bingoGame = _dbContext.BingoGames
+            .Include(bg => bg.Leaderboard)
+            .FirstOrDefault(bg => bg.Id == bingoGameId)
+            ?? throw new KeyNotFoundException($"BingoGame with id: {bingoGameId} not found");
+
+        return bingoGame;
+    }
+
     public void AddBingoGame(BingoGame bingoGame)
     {
         _dbContext.BingoGames.Add(bingoGame);

@@ -15,6 +15,12 @@ public class BingoGameService : IBingoGameService
         _bingoGameRepository = bingoGameRepository;
     }
 
+    public BingoGame GetBingoGameWithLeaderboardById(int bingoGameId)
+    {
+        var bingoGame = _bingoGameRepository.GetBingoGameWithLeaderboardById(bingoGameId);
+        return bingoGame;
+    }
+
     public BingoGame GetCurrentBingoGame()
     {
         var currentBingo = _bingoService.GetCurrentBingo();
@@ -42,5 +48,4 @@ public class BingoGameService : IBingoGameService
 
         return latestBingoGame;
     }
-
 }

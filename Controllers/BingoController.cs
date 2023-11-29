@@ -12,11 +12,15 @@ public class BingoController : ControllerBase
 {
     private readonly IBingoService _bingoService;
     private readonly IPlayerService _playerService;
+    private readonly ILeaderboardService _leaderboardService;
+    private readonly IBingoGameService _bingoGameService;
 
-    public BingoController(IBingoService bingoService, IPlayerService playerService)
+    public BingoController(IBingoService bingoService, IPlayerService playerService, ILeaderboardService leaderboardService, IBingoGameService bingoGameService)
     {
         _bingoService = bingoService;
         _playerService = playerService;
+        _leaderboardService = leaderboardService;
+        _bingoGameService = bingoGameService;
     }
 
     [HttpGet]
@@ -66,6 +70,12 @@ public class BingoController : ControllerBase
         bool playerHasWon = _playerService.CheckIfPlayerWon(playerName);
 
         Player player = _playerService.GetPlayerByName(playerName);
+
+        if (playerHasWon)
+        {
+            var currentBingoGame = _bingoGameService.GetBingoGameWithLeaderboardById(player.CurrentBingoGame!.Id);
+            _leaderboardService.AddPlayerToLeaderboard(player, currentBingoGame.Leaderboard.Id);
+        }
 
         PlayerChoiceResponseDTO playerChoiceResponseDTO = new()
         {
