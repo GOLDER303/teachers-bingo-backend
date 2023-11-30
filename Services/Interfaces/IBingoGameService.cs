@@ -6,4 +6,5 @@ public interface IBingoGameService
 {
     BingoGame GetCurrentBingoGame();
     BingoGame GetBingoGameWithLeaderboardById(int bingoGameId);
+    bool CheckIfPlayerWon(Player player);
 }

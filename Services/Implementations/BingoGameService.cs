@@ -48,4 +48,49 @@ public class BingoGameService : IBingoGameService
 
         return latestBingoGame;
     }
+
+    public bool CheckIfPlayerWon(Player player)
+    {
+        var playerChoices = player.CurrentBingoChoices;
+
+        int bingoSize = 3;
+
+        // Check rows and columns
+        for (int i = 0; i < bingoSize; i++)
+        {
+            bool rowWin = true;
+            bool colWin = true;
+
+            for (int j = 0; j < bingoSize; j++)
+            {
+                // Row
+                rowWin = rowWin && playerChoices[i, j];
+
+                // Column
+                colWin = colWin && playerChoices[j, i];
+            }
+
+            if (rowWin || colWin)
+            {
+                return true;
+            }
+        }
+
+        bool firstDiagonalWin = true;
+        bool secondDiagonalWin = true;
+
+        // Check diagonals
+        for (int i = 0; i < bingoSize; i++)
+        {
+            firstDiagonalWin = firstDiagonalWin && playerChoices[i, i];
+            secondDiagonalWin = secondDiagonalWin && playerChoices[i, bingoSize - 1 - i];
+        }
+
+        if (firstDiagonalWin || secondDiagonalWin)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

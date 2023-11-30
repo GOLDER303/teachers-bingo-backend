@@ -2,7 +2,6 @@ using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
 using TeachersBingoApi.Services.Interfaces;
-using TeachersBingoApi.Utils;
 
 namespace TeachersBingoApi.Services.Implementations;
 
@@ -78,50 +77,4 @@ public class PlayerService : IPlayerService
         return currentBingoGame.Id;
     }
 
-    public bool CheckIfPlayerWon(string playerName)
-    {
-        var player = GetPlayerByName(playerName);
-
-        var playerChoices = player.CurrentBingoChoices;
-
-        int bingoSize = 3;
-
-        // Check rows and columns
-        for (int i = 0; i < bingoSize; i++)
-        {
-            bool rowWin = true;
-            bool colWin = true;
-
-            for (int j = 0; j < bingoSize; j++)
-            {
-                // Row
-                rowWin = rowWin && playerChoices[i, j];
-
-                // Column
-                colWin = colWin && playerChoices[j, i];
-            }
-
-            if (rowWin || colWin)
-            {
-                return true;
-            }
-        }
-
-        bool firstDiagonalWin = true;
-        bool secondDiagonalWin = true;
-
-        // Check diagonals
-        for (int i = 0; i < bingoSize; i++)
-        {
-            firstDiagonalWin = firstDiagonalWin && playerChoices[i, i];
-            secondDiagonalWin = secondDiagonalWin && playerChoices[i, bingoSize - 1 - i];
-        }
-
-        if (firstDiagonalWin || secondDiagonalWin)
-        {
-            return true;
-        }
-
-        return false;
-    }
 }

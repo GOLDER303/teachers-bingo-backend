@@ -67,9 +67,9 @@ public class BingoController : ControllerBase
 
         _playerService.TogglePlayerChoice(playerName, bingoGameId, choiceDTO.Coordinates);
 
-        bool playerHasWon = _playerService.CheckIfPlayerWon(playerName);
-
         Player player = _playerService.GetPlayerByName(playerName);
+
+        bool playerHasWon = _bingoGameService.CheckIfPlayerWon(player);
 
         if (playerHasWon)
         {
