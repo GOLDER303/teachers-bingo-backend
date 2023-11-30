@@ -8,11 +8,13 @@ public class LeaderboardService : ILeaderboardService
 {
     private readonly ILeaderboardRepository _leaderboardRepository;
     private readonly ILeaderboardPositionRepository _leaderboardPositionRepository;
+    private readonly IBingoGameService _bingoGameService;
 
-    public LeaderboardService(ILeaderboardRepository leaderboardRepository, ILeaderboardPositionRepository leaderboardPositionRepository)
+    public LeaderboardService(ILeaderboardRepository leaderboardRepository, ILeaderboardPositionRepository leaderboardPositionRepository, IBingoGameService bingoGameService)
     {
         _leaderboardRepository = leaderboardRepository;
         _leaderboardPositionRepository = leaderboardPositionRepository;
+        _bingoGameService = bingoGameService;
     }
 
     public void AddPlayerToLeaderboard(Player player, int leaderboardId)
@@ -40,10 +42,39 @@ public class LeaderboardService : ILeaderboardService
         _leaderboardRepository.SaveChanges();
     }
 
+    public bool UpdatePlayerInLeaderboard(Player player, int leaderboardId)
+    {
+        bool playerHasWon = _bingoGameService.CheckIfPlayerWon(player);
+
+        if (playerHasWon && !IsPlayerInLeaderboard(player, leaderboardId))
+        {
+            AddPlayerToLeaderboard(player, leaderboardId);
+        }
+
+        else if (!playerHasWon && IsPlayerInLeaderboard(player, leaderboardId))
+        {
+            RemovePlayerFromLeaderboard(player, leaderboardId);
+        }
+
+        return playerHasWon;
+    }
+
     public bool IsPlayerInLeaderboard(Player player, int leaderboardId)
     {
         var leaderboard = _leaderboardRepository.GetLeaderboardById(leaderboardId);
         var isPlayerInLeaderboard = leaderboard.Positions.Any(p => p.Player.Id == player.Id);
         return isPlayerInLeaderboard;
+    }
+
+    public void RemovePlayerFromLeaderboard(Player player, int leaderboardId)
+    {
+        var leaderboard = _leaderboardRepository.GetLeaderboardById(leaderboardId);
+
+        if (!IsPlayerInLeaderboard(player, leaderboard.Id))
+        {
+            return;
+        }
+
+        _leaderboardPositionRepository.RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(leaderboard.Id, player.Id);
     }
 }

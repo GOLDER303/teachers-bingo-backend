@@ -17,4 +17,16 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
         _dbContext.LeaderboardPositions.Add(leaderboardPosition);
         _dbContext.SaveChanges();
     }
+
+    public void RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(int leaderboardId, int playerId)
+    {
+        var positionToRemove = _dbContext.LeaderboardPositions
+            .FirstOrDefault(lp => lp.Leaderboard.Id == leaderboardId && lp.Player.Id == playerId);
+
+        if (positionToRemove != null)
+        {
+            _dbContext.LeaderboardPositions.Remove(positionToRemove);
+            _dbContext.SaveChanges();
+        }
+    }
 }
