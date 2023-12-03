@@ -1,3 +1,4 @@
+using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
 using TeachersBingoApi.Services.Interfaces;
@@ -76,5 +77,39 @@ public class LeaderboardService : ILeaderboardService
         }
 
         _leaderboardPositionRepository.RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(leaderboard.Id, player.Id);
+    }
+
+    public GeneralLeaderboardDTO GetGeneralLeaderboard()
+    {
+        var leaderboardPositionsDTOS = _leaderboardPositionRepository.GetAllLeaderboardPositionsAsDTOs();
+
+        int currentPosition = 0;
+        int previousPositionBingoCount = -1;
+
+        List<LeaderboardPositionDTO> allLeaderBoardPositionsDTOs = new();
+
+        // Set proper positions
+        foreach (var leaderboardPositionDTO in leaderboardPositionsDTOS)
+        {
+            if (leaderboardPositionDTO.BingoWinsCount > previousPositionBingoCount)
+            {
+                previousPositionBingoCount = leaderboardPositionDTO.BingoWinsCount;
+                currentPosition++;
+            }
+
+            allLeaderBoardPositionsDTOs.Add(new LeaderboardPositionDTO
+            {
+                PlayerName = leaderboardPositionDTO.PlayerName,
+                BingoWinsCount = leaderboardPositionDTO.BingoWinsCount,
+                Position = currentPosition
+            });
+        }
+
+        var generalLeaderboardDTO = new GeneralLeaderboardDTO
+        {
+            Positions = allLeaderBoardPositionsDTOs
+        };
+
+        return generalLeaderboardDTO;
     }
 }

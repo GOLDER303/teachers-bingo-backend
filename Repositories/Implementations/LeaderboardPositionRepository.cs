@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using TeachersBingoApi.Data;
+using TeachersBingoApi.Dtos;
 using TeachersBingoApi.Models;
 using TeachersBingoApi.Repositories.Interfaces;
 
@@ -16,6 +18,24 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
     {
         _dbContext.LeaderboardPositions.Add(leaderboardPosition);
         _dbContext.SaveChanges();
+    }
+
+    public List<LeaderboardPositionDTO> GetAllLeaderboardPositionsAsDTOs()
+    {
+        var allLeaderBoardPositionsDTOs = _dbContext.LeaderboardPositions
+            .Include(lp => lp.Player)
+            .GroupBy(lp => lp.Player.Name)
+            .Select(group => new LeaderboardPositionDTO
+            {
+                PlayerName = group.Key,
+                BingoWinsCount = group.Count(),
+                Position = -1
+            })
+            .OrderByDescending(result => result.BingoWinsCount)
+            .ToList();
+
+
+        return allLeaderBoardPositionsDTOs;
     }
 
     public void RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(int leaderboardId, int playerId)
