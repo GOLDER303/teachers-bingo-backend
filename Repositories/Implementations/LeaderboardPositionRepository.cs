@@ -20,12 +20,12 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
         _dbContext.SaveChanges();
     }
 
-    public List<LeaderboardPositionDTO> GetAllLeaderboardPositionsAsDTOs()
+    public List<GeneralLeaderboardPositionDTO> GetAllLeaderboardPositionsAsDTOs()
     {
         var allLeaderBoardPositionsDTOs = _dbContext.LeaderboardPositions
             .Include(lp => lp.Player)
             .GroupBy(lp => lp.Player.Name)
-            .Select(group => new LeaderboardPositionDTO
+            .Select(group => new GeneralLeaderboardPositionDTO
             {
                 PlayerName = group.Key,
                 BingoWinsCount = group.Count(),

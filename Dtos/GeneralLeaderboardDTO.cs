@@ -2,5 +2,5 @@ namespace TeachersBingoApi.Dtos;
 
 public record GeneralLeaderboardDTO
 {
-    public required List<LeaderboardPositionDTO> Positions { get; init; }
+    public required List<GeneralLeaderboardPositionDTO> Positions { get; init; }
 };

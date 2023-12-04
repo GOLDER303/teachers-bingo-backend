@@ -7,5 +7,5 @@ public interface ILeaderboardPositionRepository
 {
     void AddLeaderboardPosition(LeaderboardPosition leaderboardPosition);
     void RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(int leaderboardId, int playerId);
-    List<LeaderboardPositionDTO> GetAllLeaderboardPositionsAsDTOs();
+    List<GeneralLeaderboardPositionDTO> GetAllLeaderboardPositionsAsDTOs();
 }

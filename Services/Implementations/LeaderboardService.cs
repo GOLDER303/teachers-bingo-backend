@@ -86,7 +86,7 @@ public class LeaderboardService : ILeaderboardService
         int currentPosition = 0;
         int previousPositionBingoCount = -1;
 
-        List<LeaderboardPositionDTO> allLeaderBoardPositionsDTOs = new();
+        List<GeneralLeaderboardPositionDTO> allLeaderBoardPositionsDTOs = new();
 
         // Set proper positions
         foreach (var leaderboardPositionDTO in leaderboardPositionsDTOS)
@@ -97,7 +97,7 @@ public class LeaderboardService : ILeaderboardService
                 currentPosition++;
             }
 
-            allLeaderBoardPositionsDTOs.Add(new LeaderboardPositionDTO
+            allLeaderBoardPositionsDTOs.Add(new GeneralLeaderboardPositionDTO
             {
                 PlayerName = leaderboardPositionDTO.PlayerName,
                 BingoWinsCount = leaderboardPositionDTO.BingoWinsCount,

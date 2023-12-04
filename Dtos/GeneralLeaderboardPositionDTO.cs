@@ -1,6 +1,6 @@
 namespace TeachersBingoApi.Dtos;
 
-public record LeaderboardPositionDTO
+public record GeneralLeaderboardPositionDTO
 {
     public required string PlayerName { get; init; }
     public required int Position { get; init; }
