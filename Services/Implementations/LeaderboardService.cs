@@ -84,14 +84,14 @@ public class LeaderboardService : ILeaderboardService
         var leaderboardPositionsDTOS = _leaderboardPositionRepository.GetAllLeaderboardPositionsAsDTOs();
 
         int currentPosition = 0;
-        int previousPositionBingoCount = -1;
+        int previousPositionBingoCount = int.MaxValue;
 
         List<GeneralLeaderboardPositionDTO> allLeaderBoardPositionsDTOs = new();
 
         // Set proper positions
         foreach (var leaderboardPositionDTO in leaderboardPositionsDTOS)
         {
-            if (leaderboardPositionDTO.BingoWinsCount > previousPositionBingoCount)
+            if (leaderboardPositionDTO.BingoWinsCount < previousPositionBingoCount)
             {
                 previousPositionBingoCount = leaderboardPositionDTO.BingoWinsCount;
                 currentPosition++;
