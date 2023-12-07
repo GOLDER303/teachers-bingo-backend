@@ -10,4 +10,5 @@ public interface ILeaderboardService
     void RemovePlayerFromLeaderboard(Player player, int leaderboardId);
     bool IsPlayerInLeaderboard(Player player, int leaderboardId);
     GeneralLeaderboardDTO GetGeneralLeaderboard();
+    LeaderboardDTO GetLeaderboardByBingoGameId(int bingoGameId);
 }

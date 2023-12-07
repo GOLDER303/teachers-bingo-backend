@@ -112,4 +112,17 @@ public class LeaderboardService : ILeaderboardService
 
         return generalLeaderboardDTO;
     }
+
+    public LeaderboardDTO GetLeaderboardByBingoGameId(int bingoGameId)
+    {
+        var bingoGame = _bingoGameService.GetBingoGameWithLeaderboardById(bingoGameId);
+        var leaderboardPositionsDTOs = _leaderboardPositionRepository.GetLeaderboardPositionsAsDTOsByLeaderboardId(bingoGame.Leaderboard.Id);
+
+        var leaderboardDTO = new LeaderboardDTO
+        {
+            Positions = leaderboardPositionsDTOs
+        };
+
+        return leaderboardDTO;
+    }
 }

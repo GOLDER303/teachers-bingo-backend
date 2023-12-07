@@ -38,6 +38,23 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
         return allLeaderBoardPositionsDTOs;
     }
 
+    public List<LeaderboardPositionDTO> GetLeaderboardPositionsAsDTOsByLeaderboardId(int leaderboardId)
+    {
+        var leaderBoardPositionsDTOs = _dbContext.LeaderboardPositions
+            .Include(lp => lp.Player)
+            .Include(lp => lp.Leaderboard)
+            .Where(lp => lp.Leaderboard.Id == leaderboardId)
+            .Select(lp => new LeaderboardPositionDTO
+            {
+                PlayerName = lp.Player.Name,
+                Position = lp.Position
+            })
+            .OrderBy(lpd => lpd.Position)
+            .ToList();
+
+        return leaderBoardPositionsDTOs;
+    }
+
     public void RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(int leaderboardId, int playerId)
     {
         var positionToRemove = _dbContext.LeaderboardPositions

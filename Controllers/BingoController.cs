@@ -41,6 +41,14 @@ public class BingoController : ControllerBase
         return Ok(bingoDTO);
     }
 
+    [HttpGet("{bingoGameId}/leaderboard")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<LeaderboardDTO> GetBingoGameLeaderboard(int bingoGameId)
+    {
+        var leaderboardDTO = _leaderboardService.GetLeaderboardByBingoGameId(bingoGameId);
+        return Ok(leaderboardDTO);
+    }
+
     [HttpPost("join")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult JoinCurrentBingoGame([FromBody] JoinCurrentBingoDTO joinCurrentBingoDTO)
