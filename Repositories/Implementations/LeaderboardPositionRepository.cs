@@ -14,6 +14,7 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
     {
         _dbContext = dbContext;
     }
+
     public void AddLeaderboardPosition(LeaderboardPosition leaderboardPosition)
     {
         _dbContext.LeaderboardPositions.Add(leaderboardPosition);
@@ -22,33 +23,33 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
 
     public List<GeneralLeaderboardPositionDTO> GetAllLeaderboardPositionsAsDTOs()
     {
-        var allLeaderBoardPositionsDTOs = _dbContext.LeaderboardPositions
+        var allLeaderBoardPositionsDTOs = _dbContext
+            .LeaderboardPositions
             .Include(lp => lp.Player)
             .GroupBy(lp => lp.Player.Name)
-            .Select(group => new GeneralLeaderboardPositionDTO
-            {
-                PlayerName = group.Key,
-                BingoWinsCount = group.Count(),
-                Position = -1
-            })
+            .Select(
+                group =>
+                    new GeneralLeaderboardPositionDTO
+                    {
+                        PlayerName = group.Key,
+                        BingoWinsCount = group.Count(),
+                        Position = -1
+                    }
+            )
             .OrderByDescending(result => result.BingoWinsCount)
             .ToList();
-
 
         return allLeaderBoardPositionsDTOs;
     }
 
     public List<LeaderboardPositionDTO> GetLeaderboardPositionsAsDTOsByLeaderboardId(int leaderboardId)
     {
-        var leaderBoardPositionsDTOs = _dbContext.LeaderboardPositions
+        var leaderBoardPositionsDTOs = _dbContext
+            .LeaderboardPositions
             .Include(lp => lp.Player)
             .Include(lp => lp.Leaderboard)
             .Where(lp => lp.Leaderboard.Id == leaderboardId)
-            .Select(lp => new LeaderboardPositionDTO
-            {
-                PlayerName = lp.Player.Name,
-                Position = lp.Position
-            })
+            .Select(lp => new LeaderboardPositionDTO { PlayerName = lp.Player.Name, Position = lp.Position })
             .OrderBy(lpd => lpd.Position)
             .ToList();
 
@@ -57,7 +58,8 @@ public class LeaderboardPositionRepository : ILeaderboardPositionRepository
 
     public void RemoveLeaderboardPositionByLeaderboardIdAndPlayerId(int leaderboardId, int playerId)
     {
-        var positionToRemove = _dbContext.LeaderboardPositions
+        var positionToRemove = _dbContext
+            .LeaderboardPositions
             .FirstOrDefault(lp => lp.Leaderboard.Id == leaderboardId && lp.Player.Id == playerId);
 
         if (positionToRemove != null)

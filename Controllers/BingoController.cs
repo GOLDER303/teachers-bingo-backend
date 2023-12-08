@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TeachersBingoApi.Dots;
 using TeachersBingoApi.Dtos;
-using TeachersBingoApi.Services.Interfaces;
 using TeachersBingoApi.Models;
+using TeachersBingoApi.Services.Interfaces;
 
 namespace TeachersBingoApi.Controllers;
 
@@ -15,7 +15,12 @@ public class BingoController : ControllerBase
     private readonly ILeaderboardService _leaderboardService;
     private readonly IBingoGameService _bingoGameService;
 
-    public BingoController(IBingoService bingoService, IPlayerService playerService, ILeaderboardService leaderboardService, IBingoGameService bingoGameService)
+    public BingoController(
+        IBingoService bingoService,
+        IPlayerService playerService,
+        ILeaderboardService leaderboardService,
+        IBingoGameService bingoGameService
+    )
     {
         _bingoService = bingoService;
         _playerService = playerService;
@@ -81,11 +86,8 @@ public class BingoController : ControllerBase
 
         var playerHasWon = _leaderboardService.UpdatePlayerInLeaderboard(player, currentBingoGame.Leaderboard.Id);
 
-        PlayerChoiceResponseDTO playerChoiceResponseDTO = new()
-        {
-            CurrentChoices = player.CurrentBingoChoices,
-            PlayerHasWon = playerHasWon
-        };
+        PlayerChoiceResponseDTO playerChoiceResponseDTO =
+            new() { CurrentChoices = player.CurrentBingoChoices, PlayerHasWon = playerHasWon };
 
         return Ok(playerChoiceResponseDTO);
     }

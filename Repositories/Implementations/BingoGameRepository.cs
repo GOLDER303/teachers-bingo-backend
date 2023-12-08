@@ -16,15 +16,19 @@ public class BingoGameRepository : IBingoGameRepository
 
     public BingoGame? GetLatestBingoGameByBingo(Bingo bingo)
     {
-        var lastBingoGame = _dbContext.BingoGames.Where(bg => bg.Bingo == bingo).OrderByDescending(bg => bg.EndDateTime).FirstOrDefault();
+        var lastBingoGame = _dbContext
+            .BingoGames
+            .Where(bg => bg.Bingo == bingo)
+            .OrderByDescending(bg => bg.EndDateTime)
+            .FirstOrDefault();
+
         return lastBingoGame;
     }
 
     public BingoGame GetBingoGameWithLeaderboardById(int bingoGameId)
     {
-        var bingoGame = _dbContext.BingoGames
-            .Include(bg => bg.Leaderboard)
-            .FirstOrDefault(bg => bg.Id == bingoGameId)
+        var bingoGame =
+            _dbContext.BingoGames.Include(bg => bg.Leaderboard).FirstOrDefault(bg => bg.Id == bingoGameId)
             ?? throw new KeyNotFoundException($"BingoGame with id: {bingoGameId} not found");
 
         return bingoGame;

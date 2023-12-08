@@ -8,7 +8,6 @@ namespace TeachersBingoApi.Controllers;
 [ApiController]
 public class PlayerController : ControllerBase
 {
-
     private readonly IPlayerService _playerService;
 
     public PlayerController(IPlayerService playerService)
@@ -22,15 +21,15 @@ public class PlayerController : ControllerBase
     {
         var player = _playerService.GetPlayerByName(playerName);
 
-        PlayerInfoResponseDTO playerInfoResponseDTO = new()
-        {
-            PlayerName = player.Name,
-            CurrentBingoId = player.CurrentBingoGame?.Id,
-            CurrentPhrases = player.CurrentBingoPhrasesStrings,
-            CurrentChoices = player.CurrentBingoChoices
-        };
+        PlayerInfoResponseDTO playerInfoResponseDTO =
+            new()
+            {
+                PlayerName = player.Name,
+                CurrentBingoId = player.CurrentBingoGame?.Id,
+                CurrentPhrases = player.CurrentBingoPhrasesStrings,
+                CurrentChoices = player.CurrentBingoChoices
+            };
 
         return playerInfoResponseDTO;
     }
-
 }

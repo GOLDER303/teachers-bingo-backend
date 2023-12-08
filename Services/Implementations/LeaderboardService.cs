@@ -11,7 +11,11 @@ public class LeaderboardService : ILeaderboardService
     private readonly ILeaderboardPositionRepository _leaderboardPositionRepository;
     private readonly IBingoGameService _bingoGameService;
 
-    public LeaderboardService(ILeaderboardRepository leaderboardRepository, ILeaderboardPositionRepository leaderboardPositionRepository, IBingoGameService bingoGameService)
+    public LeaderboardService(
+        ILeaderboardRepository leaderboardRepository,
+        ILeaderboardPositionRepository leaderboardPositionRepository,
+        IBingoGameService bingoGameService
+    )
     {
         _leaderboardRepository = leaderboardRepository;
         _leaderboardPositionRepository = leaderboardPositionRepository;
@@ -29,12 +33,13 @@ public class LeaderboardService : ILeaderboardService
 
         int position = leaderboard.Positions.Count + 1;
 
-        LeaderboardPosition newLeaderboardPosition = new()
-        {
-            Position = position,
-            Player = player,
-            Leaderboard = leaderboard,
-        };
+        LeaderboardPosition newLeaderboardPosition =
+            new()
+            {
+                Position = position,
+                Player = player,
+                Leaderboard = leaderboard,
+            };
 
         _leaderboardPositionRepository.AddLeaderboardPosition(newLeaderboardPosition);
 
@@ -51,7 +56,6 @@ public class LeaderboardService : ILeaderboardService
         {
             AddPlayerToLeaderboard(player, leaderboardId);
         }
-
         else if (!playerHasWon && IsPlayerInLeaderboard(player, leaderboardId))
         {
             RemovePlayerFromLeaderboard(player, leaderboardId);
@@ -97,18 +101,17 @@ public class LeaderboardService : ILeaderboardService
                 currentPosition++;
             }
 
-            allLeaderBoardPositionsDTOs.Add(new GeneralLeaderboardPositionDTO
-            {
-                PlayerName = leaderboardPositionDTO.PlayerName,
-                BingoWinsCount = leaderboardPositionDTO.BingoWinsCount,
-                Position = currentPosition
-            });
+            allLeaderBoardPositionsDTOs.Add(
+                new GeneralLeaderboardPositionDTO
+                {
+                    PlayerName = leaderboardPositionDTO.PlayerName,
+                    BingoWinsCount = leaderboardPositionDTO.BingoWinsCount,
+                    Position = currentPosition
+                }
+            );
         }
 
-        var generalLeaderboardDTO = new GeneralLeaderboardDTO
-        {
-            Positions = allLeaderBoardPositionsDTOs
-        };
+        var generalLeaderboardDTO = new GeneralLeaderboardDTO { Positions = allLeaderBoardPositionsDTOs };
 
         return generalLeaderboardDTO;
     }
@@ -116,12 +119,11 @@ public class LeaderboardService : ILeaderboardService
     public LeaderboardDTO GetLeaderboardByBingoGameId(int bingoGameId)
     {
         var bingoGame = _bingoGameService.GetBingoGameWithLeaderboardById(bingoGameId);
-        var leaderboardPositionsDTOs = _leaderboardPositionRepository.GetLeaderboardPositionsAsDTOsByLeaderboardId(bingoGame.Leaderboard.Id);
+        var leaderboardPositionsDTOs = _leaderboardPositionRepository.GetLeaderboardPositionsAsDTOsByLeaderboardId(
+            bingoGame.Leaderboard.Id
+        );
 
-        var leaderboardDTO = new LeaderboardDTO
-        {
-            Positions = leaderboardPositionsDTOs
-        };
+        var leaderboardDTO = new LeaderboardDTO { Positions = leaderboardPositionsDTOs };
 
         return leaderboardDTO;
     }

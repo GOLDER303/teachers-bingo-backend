@@ -15,8 +15,8 @@ public class LeaderboardRepository : ILeaderboardRepository
 
     public Leaderboard GetLeaderboardById(int leaderboardId)
     {
-        var leaderboard = _dbContext.Leaderboards
-            .FirstOrDefault(l => l.Id == leaderboardId)
+        var leaderboard =
+            _dbContext.Leaderboards.FirstOrDefault(l => l.Id == leaderboardId)
             ?? throw new KeyNotFoundException($"Leaderboard with id: {leaderboardId} not found");
 
         return leaderboard;

@@ -11,7 +11,11 @@ public class PlayerService : IPlayerService
     private readonly IBingoGameService _bingoGameService;
     private readonly IBingoService _bingoService;
 
-    public PlayerService(IPlayerRepository playerRepository, IBingoGameService bingoGameService, IBingoService bingoService)
+    public PlayerService(
+        IPlayerRepository playerRepository,
+        IBingoGameService bingoGameService,
+        IBingoService bingoService
+    )
     {
         _playerRepository = playerRepository;
         _bingoGameService = bingoGameService;
@@ -32,7 +36,10 @@ public class PlayerService : IPlayerService
             throw new Exception($"Player {playerName} is not in the current Bingo Game");
         }
 
-        player.CurrentBingoChoices[coordinates.X, coordinates.Y] = !player.CurrentBingoChoices[coordinates.X, coordinates.Y];
+        player.CurrentBingoChoices[coordinates.X, coordinates.Y] = !player.CurrentBingoChoices[
+            coordinates.X,
+            coordinates.Y
+        ];
 
         _playerRepository.SaveChanges();
     }
@@ -45,10 +52,7 @@ public class PlayerService : IPlayerService
 
     public Player CreatePlayer(string playerName)
     {
-        Player player = new()
-        {
-            Name = playerName
-        };
+        Player player = new() { Name = playerName };
 
         Player createdPlayer = _playerRepository.AddPlayer(player);
 
@@ -76,5 +80,4 @@ public class PlayerService : IPlayerService
 
         return currentBingoGame.Id;
     }
-
 }

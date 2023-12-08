@@ -37,11 +37,7 @@ public class BingoGameService : IBingoGameService
 
         if (latestBingoGame == null || latestBingoGame.EndDateTime < currentBingoEndDateTime)
         {
-            latestBingoGame = new()
-            {
-                Bingo = currentBingo.Bingo,
-                EndDateTime = currentBingoEndDateTime,
-            };
+            latestBingoGame = new() { Bingo = currentBingo.Bingo, EndDateTime = currentBingoEndDateTime, };
 
             _bingoGameRepository.AddBingoGame(latestBingoGame);
         }

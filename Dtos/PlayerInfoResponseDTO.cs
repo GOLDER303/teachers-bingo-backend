@@ -1,5 +1,3 @@
-using TeachersBingoApi.Dots;
-
 namespace TeachersBingoApi.Dtos;
 
 public record PlayerInfoResponseDTO

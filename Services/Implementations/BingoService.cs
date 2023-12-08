@@ -34,7 +34,6 @@ public class BingoService : IBingoService
             var startTime = TimeSpan.Parse(interval.Start);
             var endTime = TimeSpan.Parse(interval.End);
 
-
             if (currentTime >= startTime && currentTime < endTime)
             {
                 DateTime currentDate = DateTime.Now.Date;
@@ -48,19 +47,12 @@ public class BingoService : IBingoService
                 }
                 else
                 {
-                    bingo = new()
-                    {
-                        Name = interval.Name
-                    };
+                    bingo = new() { Name = interval.Name };
 
                     bingo = _bingoRepository.AddBingo(bingo);
                 }
 
-                CurrentBingo currentBingo = new()
-                {
-                    Bingo = bingo,
-                    EndDateTime = endDateTime
-                };
+                CurrentBingo currentBingo = new() { Bingo = bingo, EndDateTime = endDateTime };
 
                 return currentBingo;
             }

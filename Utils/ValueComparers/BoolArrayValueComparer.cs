@@ -5,15 +5,21 @@ namespace TeachersBingoApi.Utils.ValueComparers;
 
 public class BoolArrayValueComparer : ValueComparer<bool[,]>
 {
-    public BoolArrayValueComparer() : base(
-        (arr1, arr2) => ArraysAreEqual(arr1, arr2),
-        arr => ArraysHashCode(arr),
-        arr => (arr.Clone() as bool[,]) ?? new bool[3, 3])
-    { }
+    public BoolArrayValueComparer()
+        : base(
+            (arr1, arr2) => ArraysAreEqual(arr1, arr2),
+            arr => ArraysHashCode(arr),
+            arr => (arr.Clone() as bool[,]) ?? new bool[3, 3]
+        ) { }
 
     private static bool ArraysAreEqual(bool[,]? arr1, bool[,]? arr2)
     {
-        if (arr1 == null || arr2 == null || arr1.GetLength(0) != arr2.GetLength(0) || arr1.GetLength(1) != arr2.GetLength(1))
+        if (
+            arr1 == null
+            || arr2 == null
+            || arr1.GetLength(0) != arr2.GetLength(0)
+            || arr1.GetLength(1) != arr2.GetLength(1)
+        )
         {
             return false;
         }
