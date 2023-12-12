@@ -12,7 +12,10 @@ public class Player
     public required string Name { get; set; }
     public bool[,] CurrentBingoChoices { get; set; } = new bool[3, 3];
     public string[,]? CurrentBingoPhrasesStrings { get; set; }
+
     public IEnumerable<BingoGame> BingoGames { get; set; } = new List<BingoGame>();
+
+    public int CurrentBingoGameId { get; set; }
     private BingoGame? _currentBingoGame;
     public BingoGame? CurrentBingoGame
     {
