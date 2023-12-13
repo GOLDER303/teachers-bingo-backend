@@ -82,7 +82,7 @@ public class BingoController : ControllerBase
 
         Player player = _playerService.GetPlayerByName(playerName);
 
-        var currentBingoGame = _bingoGameService.GetBingoGameWithLeaderboardById(player.CurrentBingoGame!.Id);
+        var currentBingoGame = _bingoGameService.GetBingoGameWithLeaderboardById(bingoGameId);
 
         var playerHasWon = _leaderboardService.UpdatePlayerInLeaderboard(player, currentBingoGame.Leaderboard.Id);
 
